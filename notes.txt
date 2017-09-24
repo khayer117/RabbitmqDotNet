@@ -1,0 +1,2 @@
+https://dotnetcodr.com/2014/06/05/rabbitmq-in-net-data-serialisation/
+localhost:15672/#/
