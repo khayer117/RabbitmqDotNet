@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitmqDotNetCore;
@@ -13,42 +14,28 @@ namespace RabbitmqProducer
     {
         static void Main(string[] args)
         {
+            var container = CreateContainer();
 
-            var factory = new ConnectionFactory() { HostName = "localhost" };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                channel.QueueDeclare(queue: "hello",
-                                     durable: false,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
-
-                var customerUpdate = new UpdateCustomerCommand()
-                {
-                    CustomerId = 101,
-                    CustomerName = "Test Name"
-                };
-
-                var basicProperties = channel.CreateBasicProperties();
-                basicProperties.Headers = new Dictionary<string, object>
-                {
-                    {"commandType", customerUpdate.GetType().AssemblyQualifiedName}
-                };
-
-
-                string message = JsonConvert.SerializeObject(customerUpdate);
-                var body = Encoding.UTF8.GetBytes(message);
-
-                channel.BasicPublish(exchange: "",
-                                     routingKey: "hello",
-                                     basicProperties: basicProperties,
-                                     body: body);
-                Console.WriteLine(" [x] Sent {0}", message);
-            }
+            //new TestProducer().TestDirectMessage();
+            var testProducer = container.Resolve<TestProducer>();
+            testProducer.TestExchangeMessage();
+            
+            Console.WriteLine(" Press [enter] to exit.");
+            Console.ReadLine();
 
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
+        }
+        private static IContainer CreateContainer()
+        {
+            var builder = new ContainerBuilder();
+
+            var assemblies = AssembliesProvider.Instance.Assemblies.ToArray();
+            builder.RegisterAssemblyModules(assemblies);
+
+            var container = builder.Build();
+
+            return container;
         }
     }
 }
