@@ -1,4 +1,4 @@
-﻿using RabbitmqDotNetCore.Core;
+﻿using RabbitmqDotNetCore.Infrastructure;
 
 namespace RabbitmqDotNetCore
 {

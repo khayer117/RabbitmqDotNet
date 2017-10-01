@@ -1,4 +1,4 @@
-﻿namespace RabbitmqDotNetCore.Core
+﻿namespace RabbitmqDotNetCore.Infrastructure
 {
     public interface IQueueCommand
     {

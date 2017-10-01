@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RabbitmqDotNetCore.Core
+namespace RabbitmqDotNetCore.Infrastructure
 {
-    public class UpdatePublicationOwner:IQueueCommand
+    public class UpdatePublicationOwnerCommand:IQueueCommand
     {
         public string ObjectId;
         public string Name;

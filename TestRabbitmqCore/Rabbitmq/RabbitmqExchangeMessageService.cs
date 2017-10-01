@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using RabbitmqDotNetCore.Core;
+using RabbitmqDotNetCore.Infrastructure;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -15,11 +15,14 @@ namespace RabbitmqDotNetCore.Rabbitmq
     {
         private IRabbitmqConnect rabbitmqConnect;
         private IModel Channel;
+        private ICommandBus commandBus;
         private const string commandTypeName = "commandType";
 
-        public RabbitmqExchangeMessageService(IRabbitmqConnect rabbitmqConnect)
+        public RabbitmqExchangeMessageService(IRabbitmqConnect rabbitmqConnect,
+            ICommandBus commandBus)
         {
             this.rabbitmqConnect = rabbitmqConnect;
+            this.commandBus = commandBus;
         }
 
         public void SetExchange()
@@ -80,7 +83,9 @@ namespace RabbitmqDotNetCore.Rabbitmq
                     var customerCommand = JsonConvert.DeserializeObject(message, cType);
 
                     Console.WriteLine(string.Concat($"Message received from {quaueName}: ",
-                        JsonConvert.SerializeObject(customerCommand)));
+                                JsonConvert.SerializeObject(customerCommand)));
+
+                    this.commandBus.Send<NoCommandResult>(customerCommand);
                 }
                 else
                 {

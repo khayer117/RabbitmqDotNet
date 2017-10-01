@@ -22,9 +22,6 @@ namespace RabbitmqProducer
             
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
-
-            Console.WriteLine(" Press [enter] to exit.");
-            Console.ReadLine();
         }
         private static IContainer CreateContainer()
         {

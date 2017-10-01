@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RabbitmqDotNetCore;
-using RabbitmqDotNetCore.Core;
+using RabbitmqDotNetCore.Infrastructure;
 using RabbitmqDotNetCore.Rabbitmq;
 
 namespace RabbitmqProducer
@@ -20,7 +20,7 @@ namespace RabbitmqProducer
         }
         public void TestDirectMessage()
         {
-            var command = new UpdatePublicationOwner()
+            var command = new UpdatePublicationOwnerCommand()
             {
                 Name = "Test Name",
                 ObjectId = "334343"
@@ -37,14 +37,15 @@ namespace RabbitmqProducer
 
             while (true)
             {
-                Console.WriteLine("Name(q for quit):");
+                Console.WriteLine("Enter q for quit.");
+                Console.WriteLine("Po Name:");
                 var name = Console.ReadLine();
                 if (string.IsNullOrEmpty(name) || name.Equals("q"))
                 {
                     break;
                 }
 
-                var command = new UpdatePublicationOwner()
+                var command = new UpdatePublicationOwnerCommand()
                 {
                     Name = name,
                     ObjectId = (new Random()).Next().ToString()
