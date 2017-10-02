@@ -17,7 +17,7 @@ namespace MessengerWizardConsumer
 
             //var testSync = container.Resolve<TestMWDataSync>();
             //testSync.TestCommand().Wait();
-
+            Console.WriteLine("Messenger App Consumer started.");
             var exchangeService = container.Resolve<IRabbitmqExchangeMessageService>();
             exchangeService.ReceiveMessages(GlobalDictionary.QueueExchangeMessengerWizard);
 
