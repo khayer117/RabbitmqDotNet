@@ -74,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssembliesProvider.cs" />
+    <Compile Include="Infrastructure\CommandDispatcher\ActionCommandDispacher.cs" />
+    <Compile Include="Infrastructure\CommandDispatcher\IActionCommandDispacher.cs" />
+    <Compile Include="Infrastructure\CommandDispatcher\IActionCommandHandler.cs" />
     <Compile Include="Infrastructure\IQueueCommand.cs" />
     <Compile Include="Infrastructure\Logger\Logger.cs" />
     <Compile Include="Infrastructure\Mediator\CommandBus.cs" />

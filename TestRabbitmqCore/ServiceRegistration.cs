@@ -16,11 +16,21 @@ namespace RabbitmqDotNetCore
         {
             var assemblies = AssembliesProvider.Instance.Assemblies.ToArray();
 
+            RegisterCommon(builder, assemblies);
             RegisterLogger(builder);
             RegisterMediator(builder, assemblies);
+            RegisterCommandDispather(builder, assemblies);
             RegisterRabbitmq(builder);
         }
 
+        private static void RegisterCommon(ContainerBuilder builder, Assembly[] assemblies)
+        {
+            builder.Register<Func<Type, object>>(c =>
+            {
+                var ctx = c.Resolve<IComponentContext>();
+                return ctx.Resolve;
+            });
+        }
         private static void RegisterRabbitmq(ContainerBuilder builder)
         {
             builder.RegisterType<RabbitmqExchangeMessageService>().AsSelf().AsImplementedInterfaces();
@@ -34,14 +44,17 @@ namespace RabbitmqDotNetCore
                 .AsClosedTypesOf(typeof(ICommandHandler<,>))
                 .AsImplementedInterfaces();
 
-
-            builder.Register<Func<Type, object>>(c =>
-            {
-                var ctx = c.Resolve<IComponentContext>();
-                return ctx.Resolve;
-            });
-
             builder.RegisterType<CommandBus>().AsSelf().AsImplementedInterfaces();
+
+        }
+        private static void RegisterCommandDispather(ContainerBuilder builder, Assembly[] assemblies)
+        {
+            builder.RegisterAssemblyTypes(assemblies)
+                .AsSelf()
+                .AsClosedTypesOf(typeof(IActionCommandHandler<>))
+                .AsImplementedInterfaces();
+
+            builder.RegisterType<ActionCommandDispacher>().AsSelf().AsImplementedInterfaces();
 
         }
         private void RegisterLogger(ContainerBuilder builder)

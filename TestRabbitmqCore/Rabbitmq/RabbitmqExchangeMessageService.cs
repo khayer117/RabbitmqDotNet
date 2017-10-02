@@ -16,13 +16,16 @@ namespace RabbitmqDotNetCore.Rabbitmq
         private IRabbitmqConnect rabbitmqConnect;
         private IModel Channel;
         private ICommandBus commandBus;
+        private IActionCommandDispacher actionCommandDispacher;
         private const string commandTypeName = "commandType";
 
         public RabbitmqExchangeMessageService(IRabbitmqConnect rabbitmqConnect,
-            ICommandBus commandBus)
+            ICommandBus commandBus,
+            IActionCommandDispacher actionCommandDispacher)
         {
             this.rabbitmqConnect = rabbitmqConnect;
             this.commandBus = commandBus;
+            this.actionCommandDispacher = actionCommandDispacher;
         }
 
         public void SetExchange()
@@ -80,12 +83,16 @@ namespace RabbitmqDotNetCore.Rabbitmq
                     var commandType = Encoding.UTF8.GetString(commandTypeBytes);
 
                     var cType = Type.GetType(commandType);
-                    var customerCommand = JsonConvert.DeserializeObject(message, cType);
+                    var recieveCommand = JsonConvert.DeserializeObject(message, cType);
 
                     Console.WriteLine(string.Concat($"Message received from {quaueName}: ",
-                                JsonConvert.SerializeObject(customerCommand)));
+                                JsonConvert.SerializeObject(recieveCommand)));
 
-                    this.commandBus.Send<NoCommandResult>(customerCommand);
+                    // Method 1: Using Generic Command buss
+                    //this.commandBus.Send<NoCommandResult>(recieveCommand);
+
+                    // Method 2: Using Action command dispather. No return type.
+                    this.actionCommandDispacher.Send(recieveCommand);
                 }
                 else
                 {

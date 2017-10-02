@@ -53,6 +53,7 @@
     <Compile Include="TestCommandHandler.cs" />
     <Compile Include="TestMWDataSync.cs" />
     <Compile Include="UpdatePublicationOwnerHandler.cs" />
+    <Compile Include="UpdatePublicationOwnerHandlerV2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
