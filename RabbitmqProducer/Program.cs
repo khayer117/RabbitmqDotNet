@@ -16,12 +16,24 @@ namespace RabbitmqProducer
         {
             var container = CreateContainer();
 
-            //new TestProducer().TestDirectMessage();
-            var testProducer = container.Resolve<TestProducer>();
-            testProducer.TestExchangeMessage();
-            
-            Console.WriteLine(" Press [enter] to exit.");
-            Console.ReadLine();
+            while (true)
+            {
+                var testProducer = container.Resolve<TestProducer>();
+
+                // Example 1: through predefine queqe and exchange bind
+                testProducer.TestPreConfigExchangeMessage();
+
+                // Example 2: through only exchase, Consumer will bind the queue.
+                testProducer.TestPostConfigExchangeMessage();
+
+                Console.WriteLine("Type [q] to exit.");
+                var value = Console.ReadLine();
+                if (!string.IsNullOrEmpty(value) && value.Equals("q", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    break;
+                }
+            }
+
         }
         private static IContainer CreateContainer()
         {

@@ -31,28 +31,35 @@ namespace RabbitmqProducer
             rabbitmqService.EnQueue(GlobalDictionary.QueueDirectMessengerWizardDataSync,command);
         }
 
-        public void TestExchangeMessage()
+        public void TestPreConfigExchangeMessage()
         {
             
-            this.rabbitmqExchangeMessageService.SetExchange();
+            this.rabbitmqExchangeMessageService.SetDefaultExchange();
 
-            while (true)
+            
+            var updatePublicationOwnerCommand = new UpdatePublicationOwnerCommand()
             {
-                Console.WriteLine("Enter q for quit.");
-                Console.WriteLine("Po Name:");
-                var name = Console.ReadLine();
-                if (string.IsNullOrEmpty(name) || name.Equals("q"))
-                {
-                    break;
-                }
+                Name = "Fx home",
+                ObjectId = (new Random()).Next().ToString()
+            };
 
-                var command = new UpdatePublicationOwnerCommand()
-                {
-                    Name = name,
-                    ObjectId = (new Random()).Next().ToString()
-                };
-                this.rabbitmqExchangeMessageService.BasicPublish(GlobalDictionary.DataSyncFanoutExchange, command);
-            }
+            this.rabbitmqExchangeMessageService.BasicPublish(GlobalDictionary.DataSyncFanoutExchange,
+                updatePublicationOwnerCommand,
+                GlobalDictionary.RoutingKeyDataSyncTableData);
+        }
+
+        public void TestPostConfigExchangeMessage()
+        {
+            this.rabbitmqExchangeMessageService.SetExchange(GlobalDictionary.DataSyncDirectExchange,RabbitmqExchangeType.Direct);
+
+            var updateFileSettingCommand = new UpdateFileSettingCommand()
+            {
+                IsHomeOwnerModalOn = true
+            };
+
+            this.rabbitmqExchangeMessageService.BasicPublish(GlobalDictionary.DataSyncDirectExchange,
+                updateFileSettingCommand,
+                GlobalDictionary.RoutingKeyDataSyncFileSetting);
         }
     }
 }

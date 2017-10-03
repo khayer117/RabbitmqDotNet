@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssembliesProvider.cs" />
+    <Compile Include="Features\DataSyncCommand\UpdateFileSettingCommand.cs" />
     <Compile Include="Infrastructure\CommandDispatcher\ActionCommandDispacher.cs" />
     <Compile Include="Infrastructure\CommandDispatcher\IActionCommandDispacher.cs" />
     <Compile Include="Infrastructure\CommandDispatcher\IActionCommandHandler.cs" />
@@ -90,9 +91,11 @@
     <Compile Include="Rabbitmq\IRabbitmqConnect.cs" />
     <Compile Include="Rabbitmq\IRabbitmqDirectMessageService.cs" />
     <Compile Include="Rabbitmq\IRabbitmqExchangeMessageService.cs" />
+    <Compile Include="Rabbitmq\QueueConfig.cs" />
     <Compile Include="Rabbitmq\RabbitmqConnect.cs" />
     <Compile Include="Rabbitmq\RabbitmqDirectMessageService.cs" />
     <Compile Include="Rabbitmq\RabbitmqExchangeMessageService.cs" />
+    <Compile Include="Rabbitmq\RabbitmqExchangeType.cs" />
     <Compile Include="ServiceRegistration.cs" />
   </ItemGroup>
   <ItemGroup>

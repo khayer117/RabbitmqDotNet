@@ -12,7 +12,7 @@ namespace MessengerWizardConsumer
     {
         public async Task Handle(UpdatePublicationOwnerCommand command)
         {
-            Console.WriteLine("Handle Command(v2) for Messenger Wizard:" + command.Name);
+            Console.WriteLine("Handle UpdatePo Command(v2) for Messenger Wizard:" + command.Name);
         }
     }
 }

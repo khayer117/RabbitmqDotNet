@@ -31,7 +31,15 @@ namespace RabbitmqDotNetCore.Rabbitmq
             this.logger = logger;
         }
 
-        public void SetExchange()
+        public void SetExchange(string exchangeName,string exchangeType)
+        {
+            var connection = this.rabbitmqConnect.CreateConnection();
+            var channel = connection.CreateModel();
+            channel.ExchangeDeclare(exchangeName, exchangeType, true, false, null);
+
+            this.Channel = channel;
+        }
+        public void SetDefaultExchange()
         {
             var connection = this.rabbitmqConnect.CreateConnection();
             var channel = connection.CreateModel();
@@ -39,18 +47,18 @@ namespace RabbitmqDotNetCore.Rabbitmq
             foreach (var exchangeConfig in GlobalDictionary.ExchangeConfig)
             {
                 var exchangeName = exchangeConfig.Key;
-                channel.ExchangeDeclare(exchangeName, ExchangeType.Fanout, true, false, null);
+                channel.ExchangeDeclare(exchangeName, ExchangeType.Direct, true, false, null);
 
-                foreach (var quaueName in exchangeConfig.Value)
+                foreach (var queueConfig in exchangeConfig.Value)
                 {
-                    channel.QueueDeclare(quaueName, true, false, false, null);
-                    channel.QueueBind(quaueName, exchangeName, "");
+                    channel.QueueDeclare(queueConfig.QueueName, queueConfig.IsDurable, false, false, null);
+                    channel.QueueBind(queueConfig.QueueName, exchangeName, queueConfig.RoutingKey);
                 }
             }
 
             this.Channel = channel;
         }
-        public void BasicPublish(string exchangeName,IQueueCommand command)
+        public void BasicPublish(string exchangeName,IQueueCommand command, string routingKey = "")
         {
             var basicProperties = this.Channel.CreateBasicProperties();
             basicProperties.Headers = new Dictionary<string, object>
@@ -61,12 +69,19 @@ namespace RabbitmqDotNetCore.Rabbitmq
             var message = JsonConvert.SerializeObject(command);
             var body = Encoding.UTF8.GetBytes(message);
 
-            var address = new PublicationAddress(ExchangeType.Fanout, exchangeName, "");
+            var address = new PublicationAddress(ExchangeType.Fanout, exchangeName, routingKey);
 
             this.Channel.BasicPublish(address, basicProperties, body);
             this.logger.Info($"Publish to {exchangeName}");
         }
+        public void SetQueue(string exchangeName, string queueName, string routingKey)
+        {
+            var connection = this.rabbitmqConnect.CreateConnection();
+            var channel = connection.CreateModel();
 
+            channel.QueueDeclare(queueName, true, false, false, null);
+            channel.QueueBind(queueName, exchangeName, routingKey);
+        }
         public void ReceiveMessages(string quaueName)
         {
             var connection = this.rabbitmqConnect.CreateConnection();
@@ -104,6 +119,7 @@ namespace RabbitmqDotNetCore.Rabbitmq
             };
 
             channel.BasicConsume(quaueName, false, eventingBasicConsumer);
+            this.logger.Info($"Waiting for messeage from {quaueName}");
         }
     }
 }

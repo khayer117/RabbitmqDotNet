@@ -19,7 +19,15 @@ namespace MessengerWizardConsumer
             //testSync.TestCommand().Wait();
             Console.WriteLine("Messenger App Consumer started.");
             var exchangeService = container.Resolve<IRabbitmqExchangeMessageService>();
-            exchangeService.ReceiveMessages(GlobalDictionary.QueueExchangeMessengerWizard);
+
+            Task.Run(() => exchangeService.ReceiveMessages(GlobalDictionary.QueueDataSyncExchangeMessengerWizard));
+
+            //Post config method
+            exchangeService.SetQueue(GlobalDictionary.DataSyncDirectExchange,
+                GlobalDictionary.QueueSyncFileSettingExchange,
+                GlobalDictionary.RoutingKeyDataSyncFileSetting);
+
+            Task.Run(() => exchangeService.ReceiveMessages(GlobalDictionary.QueueSyncFileSettingExchange));
 
             Console.ReadKey();
         }

@@ -16,7 +16,7 @@ namespace LanguageAppConsumer
             var container = CreateContainer();
             Console.WriteLine("Language App Consumer started.");
             var exchangeService = container.Resolve<RabbitmqExchangeMessageService>();
-            exchangeService.ReceiveMessages(GlobalDictionary.QueueExchangeLanguageApp);
+            exchangeService.ReceiveMessages(GlobalDictionary.QueueDataSyncExchangeLanguageApp);
         }
         private static IContainer CreateContainer()
         {
