@@ -17,15 +17,18 @@ namespace RabbitmqDotNetCore.Rabbitmq
         private IModel Channel;
         private ICommandBus commandBus;
         private IActionCommandDispacher actionCommandDispacher;
+        private ILogger logger;
         private const string commandTypeName = "commandType";
 
         public RabbitmqExchangeMessageService(IRabbitmqConnect rabbitmqConnect,
             ICommandBus commandBus,
-            IActionCommandDispacher actionCommandDispacher)
+            IActionCommandDispacher actionCommandDispacher,
+            ILogger logger)
         {
             this.rabbitmqConnect = rabbitmqConnect;
             this.commandBus = commandBus;
             this.actionCommandDispacher = actionCommandDispacher;
+            this.logger = logger;
         }
 
         public void SetExchange()
@@ -47,7 +50,7 @@ namespace RabbitmqDotNetCore.Rabbitmq
 
             this.Channel = channel;
         }
-        public void BasicPublic(string exchangeName,IQueueCommand command)
+        public void BasicPublish(string exchangeName,IQueueCommand command)
         {
             var basicProperties = this.Channel.CreateBasicProperties();
             basicProperties.Headers = new Dictionary<string, object>
@@ -61,7 +64,7 @@ namespace RabbitmqDotNetCore.Rabbitmq
             var address = new PublicationAddress(ExchangeType.Fanout, exchangeName, "");
 
             this.Channel.BasicPublish(address, basicProperties, body);
-            Console.WriteLine($"Publish to {exchangeName}");
+            this.logger.Info($"Publish to {exchangeName}");
         }
 
         public void ReceiveMessages(string quaueName)
@@ -85,9 +88,7 @@ namespace RabbitmqDotNetCore.Rabbitmq
                     var cType = Type.GetType(commandType);
                     var recieveCommand = JsonConvert.DeserializeObject(message, cType);
 
-                    Console.WriteLine(string.Concat($"Message received from {quaueName}: ",
-                                JsonConvert.SerializeObject(recieveCommand)));
-
+                    this.logger.Info($"Message received from {quaueName}: {JsonConvert.SerializeObject(recieveCommand)}");
                     // Method 1: Using Generic Command buss
                     //this.commandBus.Send<NoCommandResult>(recieveCommand);
 
@@ -96,7 +97,7 @@ namespace RabbitmqDotNetCore.Rabbitmq
                 }
                 else
                 {
-                    Console.WriteLine($"Skup message. Invalid {commandTypeName} type in property header.");
+                    this.logger.Info($"Skup message. Invalid {commandTypeName} type in property header.");
                 }
                 
                 channel.BasicAck(basicDeliveryEventArgs.DeliveryTag, false);

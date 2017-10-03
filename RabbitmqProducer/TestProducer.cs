@@ -51,7 +51,7 @@ namespace RabbitmqProducer
                     Name = name,
                     ObjectId = (new Random()).Next().ToString()
                 };
-                this.rabbitmqExchangeMessageService.BasicPublic(GlobalDictionary.DataSyncFanoutExchange, command);
+                this.rabbitmqExchangeMessageService.BasicPublish(GlobalDictionary.DataSyncFanoutExchange, command);
             }
         }
     }
