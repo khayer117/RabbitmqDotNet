@@ -83,7 +83,7 @@
     <Compile Include="Infrastructure\Mediator\ICommandBus.cs" />
     <Compile Include="Infrastructure\Mediator\ICommandHandler.cs" />
     <Compile Include="Infrastructure\Mediator\NoCommandResult.cs" />
-    <Compile Include="Infrastructure\UpdatePublicationOwnerCommand.cs" />
+    <Compile Include="Features\DataSyncCommand\UpdatePublicationOwnerCommand.cs" />
     <Compile Include="GlobalDictionary.cs" />
     <Compile Include="Infrastructure\Logger\ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,7 +92,6 @@
     <Compile Include="Rabbitmq\IRabbitmqExchangeMessageService.cs" />
     <Compile Include="Rabbitmq\RabbitmqConnect.cs" />
     <Compile Include="Rabbitmq\RabbitmqDirectMessageService.cs" />
-    <Compile Include="Features\UpdateCustomerCommand.cs" />
     <Compile Include="Rabbitmq\RabbitmqExchangeMessageService.cs" />
     <Compile Include="ServiceRegistration.cs" />
   </ItemGroup>
