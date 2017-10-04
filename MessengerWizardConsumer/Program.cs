@@ -18,16 +18,16 @@ namespace MessengerWizardConsumer
             //var testSync = container.Resolve<TestMWDataSync>();
             //testSync.TestCommand().Wait();
             Console.WriteLine("Messenger App Consumer started.");
-            var exchangeService = container.Resolve<IRabbitmqExchangeMessageService>();
+            var rabbitmqConsumerService = container.Resolve<IRabbitmqConsumerService>();
 
-            Task.Run(() => exchangeService.ReceiveMessages(GlobalDictionary.QueueDataSyncExchangeMessengerWizard));
+            Task.Run(() => rabbitmqConsumerService.ReceiveMessages(GlobalDictionary.QueueDataSyncExchangeMessengerWizard));
 
             //Post config method
-            exchangeService.SetQueue(GlobalDictionary.DataSyncDirectExchange,
+            rabbitmqConsumerService.SetQueue(GlobalDictionary.DataSyncDirectExchange,
                 GlobalDictionary.QueueSyncFileSettingExchange,
                 GlobalDictionary.RoutingKeyDataSyncFileSetting);
 
-            Task.Run(() => exchangeService.ReceiveMessages(GlobalDictionary.QueueSyncFileSettingExchange));
+            Task.Run(() => rabbitmqConsumerService.ReceiveMessages(GlobalDictionary.QueueSyncFileSettingExchange));
 
             Console.ReadKey();
         }

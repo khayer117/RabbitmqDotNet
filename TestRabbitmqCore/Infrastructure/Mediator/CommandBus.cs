@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using System.Diagnostics;
-
 namespace RabbitmqDotNetCore.Infrastructure
 {
     using System;
     using System.Globalization;
-    using System.Threading;
     using System.Threading.Tasks;
 
     public class CommandBus : ICommandBus

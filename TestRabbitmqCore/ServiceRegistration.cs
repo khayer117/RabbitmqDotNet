@@ -33,8 +33,8 @@ namespace RabbitmqDotNetCore
         }
         private static void RegisterRabbitmq(ContainerBuilder builder)
         {
-            builder.RegisterType<RabbitmqExchangeMessageService>().AsSelf().AsImplementedInterfaces();
-            builder.RegisterType<RabbitmqDirectMessageService>().AsSelf().AsImplementedInterfaces();
+            builder.RegisterType<RabbitmqProducerService>().AsSelf().AsImplementedInterfaces();
+            builder.RegisterType<RabbitmqConsumerService>().AsSelf().AsImplementedInterfaces();
             builder.RegisterType<RabbitmqConnect>().AsSelf().AsImplementedInterfaces();
         }
         private static void RegisterMediator(ContainerBuilder builder, Assembly[] assemblies)

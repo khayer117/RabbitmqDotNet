@@ -12,25 +12,13 @@ namespace RabbitmqProducer
 {
     public class TestProducer
     {
-        private readonly IRabbitmqExchangeMessageService rabbitmqExchangeMessageService;
+        private readonly IRabbitmqProducerService rabbitmqExchangeMessageService;
 
-        public TestProducer(IRabbitmqExchangeMessageService rabbitmqExchangeMessageService)
+        public TestProducer(IRabbitmqProducerService rabbitmqExchangeMessageService)
         {
             this.rabbitmqExchangeMessageService = rabbitmqExchangeMessageService;
 
         }
-        public void TestDirectMessage()
-        {
-            var command = new UpdatePublicationOwnerCommand()
-            {
-                Name = "Test Name",
-                ObjectId = "334343"
-            };
-
-            var rabbitmqService = new RabbitmqDirectMessageService(new RabbitmqConnect());
-            rabbitmqService.EnQueue(GlobalDictionary.QueueDirectMessengerWizardDataSync,command);
-        }
-
         public void TestPreConfigExchangeMessage()
         {
             
@@ -43,7 +31,7 @@ namespace RabbitmqProducer
                 ObjectId = (new Random()).Next().ToString()
             };
 
-            this.rabbitmqExchangeMessageService.BasicPublish(GlobalDictionary.DataSyncFanoutExchange,
+            this.rabbitmqExchangeMessageService.BasicPublish(GlobalDictionary.DataSyncDirectExchange,
                 updatePublicationOwnerCommand,
                 GlobalDictionary.RoutingKeyDataSyncTableData);
         }

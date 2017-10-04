@@ -1,16 +1,11 @@
 
 namespace RabbitmqDotNetCore.Infrastructure
 {
-    using System;
-
-    using Serilog;
     using Serilog.Context;
-    using Serilog.Events;
-    using System.Collections.Generic;
-    
+    using System;
     //using SeriLogger = Serilog.ILogger;
     using SeriLogger = Serilog.Core.Logger;
-    
+
     public class Logger : ILogger
     {
         private readonly SeriLogger logger;
