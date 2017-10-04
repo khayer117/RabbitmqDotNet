@@ -1,5 +1,5 @@
 # Rabbitmq Dot Net
-RabbitmqDotNet is a complete startup project for Rabbitmq using .NET. This contains simple but rich library using command segrigation technique. The core api of RabbitmqDotNet has been wrapped to simple services. Producer will put command and consumer will recive corresponding command to handle. No need custom object casting and refelction.
+RabbitmqDotNet is a complete startup project for Rabbitmq using .NET. This contains simple but rich library using command segregation technique. The core api of RabbitmqDotNet has been wrapped to simple services. Producer puts command and consumer recieved corresponding command to handle. No need any custom object casting and reflection.
 
 ## Knowledge
 Need basic idea on [Rabbitmq](https://www.rabbitmq.com/tutorials/tutorial-one-dotnet.html).
@@ -9,7 +9,7 @@ Need basic idea on [Rabbitmq](https://www.rabbitmq.com/tutorials/tutorial-one-do
 * Install RabbitMQ.Client using Nuget
 
 ## How to Start
-* Producer: Simple publish to exchage
+* Producer: Simple publish to exchange
 ```csharp
 this.rabbitmqProducerService.SetExchange(GlobalDictionary.DataSyncDirectExchange,RabbitmqExchangeType.Direct);
 var updateFileSettingCommand = new UpdateFileSettingCommand()
