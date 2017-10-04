@@ -8,9 +8,9 @@ using RabbitmqDotNetCore.Infrastructure;
 
 namespace LanguageAppConsumer
 {
-    public class UpdatePublicationOwnerHandler:ICommandHandler<UpdatePublicationOwnerCommand,NoCommandResult>
+    public class UpdatePoHandler:ICommandHandler<UpdatePoCommand,NoCommandResult>
     {
-        public async Task<NoCommandResult> Handle(UpdatePublicationOwnerCommand command)
+        public async Task<NoCommandResult> Handle(UpdatePoCommand command)
         {
             Console.WriteLine("Handle Command for Language App:" + command.Name);
             return NoCommandResult.Instance;

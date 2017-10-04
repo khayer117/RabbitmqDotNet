@@ -12,9 +12,26 @@ namespace RabbitmqDotNetCore.Rabbitmq
             connectionFactory.Password = GlobalDictionary.RabbitmqPassword;
 
             return connectionFactory.CreateConnection();
+        }
 
-            //var factory = new ConnectionFactory() { HostName = "localhost" };
-            //return factory.CreateConnection();
+        public IModel SetExchange(string exchangeName, string exchangeType)
+        {
+            var connection = CreateConnection();
+            var channel = connection.CreateModel();
+            channel.ExchangeDeclare(exchangeName, exchangeType, true, false, null);
+
+            return channel;
+        }
+
+        public IModel SetQueue(string exchangeName, string queueName, string routingKey)
+        {
+            var connection = CreateConnection();
+            var channel = connection.CreateModel();
+
+            channel.QueueDeclare(queueName, true, false, false, null);
+            channel.QueueBind(queueName, exchangeName, routingKey);
+
+            return channel;
         }
     }
 }

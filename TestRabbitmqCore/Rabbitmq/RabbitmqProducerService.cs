@@ -22,11 +22,8 @@ namespace RabbitmqDotNetCore.Rabbitmq
 
         public void SetExchange(string exchangeName,string exchangeType)
         {
-            var connection = this.rabbitmqConnect.CreateConnection();
-            var channel = connection.CreateModel();
-            channel.ExchangeDeclare(exchangeName, exchangeType, true, false, null);
-
-            this.Channel = channel;
+            this.Channel = this.rabbitmqConnect.SetExchange(exchangeName,
+                exchangeType);
         }
         public void SetDefaultExchange()
         {
@@ -62,14 +59,6 @@ namespace RabbitmqDotNetCore.Rabbitmq
 
             this.Channel.BasicPublish(address, basicProperties, body);
             this.logger.Info($"Publish to {exchangeName}");
-        }
-        public void SetQueue(string exchangeName, string queueName, string routingKey)
-        {
-            var connection = this.rabbitmqConnect.CreateConnection();
-            var channel = connection.CreateModel();
-
-            channel.QueueDeclare(queueName, true, false, false, null);
-            channel.QueueBind(queueName, exchangeName, routingKey);
         }
     }
 }

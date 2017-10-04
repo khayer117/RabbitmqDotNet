@@ -84,7 +84,7 @@
     <Compile Include="Infrastructure\Mediator\ICommandBus.cs" />
     <Compile Include="Infrastructure\Mediator\ICommandHandler.cs" />
     <Compile Include="Infrastructure\Mediator\NoCommandResult.cs" />
-    <Compile Include="Features\DataSyncCommand\UpdatePublicationOwnerCommand.cs" />
+    <Compile Include="Features\DataSyncCommand\UpdatePoCommand.cs" />
     <Compile Include="GlobalDictionary.cs" />
     <Compile Include="Infrastructure\Logger\ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

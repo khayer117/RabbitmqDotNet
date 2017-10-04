@@ -10,7 +10,6 @@ namespace RabbitmqProducer
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<TestMWDataSync>().AsSelf().AsImplementedInterfaces();
 
         }
 

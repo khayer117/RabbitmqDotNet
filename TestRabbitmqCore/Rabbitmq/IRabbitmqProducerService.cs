@@ -18,10 +18,5 @@ namespace RabbitmqDotNetCore.Rabbitmq
         /// Publish command to specific Exchange 
         /// </summary>
         void BasicPublish(string exchangeName,IQueueCommand command,string routingKey="");
-
-        /// <summary>
-        /// Declare Queue, then bind with exchage using routing key 
-        /// </summary>
-        void SetQueue(string exchangeName, string queueName, string routingKey);
     }
 }

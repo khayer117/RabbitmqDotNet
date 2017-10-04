@@ -18,7 +18,7 @@ namespace MessengerWizardConsumer
         }
         public async Task Handle(UpdateFileSettingCommand command)
         {
-            this.logger.Info($"Handle File setting: {command.IsHomeOwnerModalOn}");
+            this.logger.Info($"Handle File setting: {command.IsStartupModalOn}");
         }
     }
 }

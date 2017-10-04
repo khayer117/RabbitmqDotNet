@@ -12,40 +12,40 @@ namespace RabbitmqProducer
 {
     public class TestProducer
     {
-        private readonly IRabbitmqProducerService rabbitmqExchangeMessageService;
+        private readonly IRabbitmqProducerService rabbitmqProducerService;
 
-        public TestProducer(IRabbitmqProducerService rabbitmqExchangeMessageService)
+        public TestProducer(IRabbitmqProducerService rabbitmqProducerService)
         {
-            this.rabbitmqExchangeMessageService = rabbitmqExchangeMessageService;
+            this.rabbitmqProducerService = rabbitmqProducerService;
 
         }
         public void TestPreConfigExchangeMessage()
         {
             
-            this.rabbitmqExchangeMessageService.SetDefaultExchange();
+            this.rabbitmqProducerService.SetDefaultExchange();
 
             
-            var updatePublicationOwnerCommand = new UpdatePublicationOwnerCommand()
+            var updatePoCommand = new UpdatePoCommand()
             {
                 Name = "Fx home",
                 ObjectId = (new Random()).Next().ToString()
             };
 
-            this.rabbitmqExchangeMessageService.BasicPublish(GlobalDictionary.DataSyncDirectExchange,
-                updatePublicationOwnerCommand,
+            this.rabbitmqProducerService.BasicPublish(GlobalDictionary.DataSyncDirectExchange,
+                updatePoCommand,
                 GlobalDictionary.RoutingKeyDataSyncTableData);
         }
 
         public void TestPostConfigExchangeMessage()
         {
-            this.rabbitmqExchangeMessageService.SetExchange(GlobalDictionary.DataSyncDirectExchange,RabbitmqExchangeType.Direct);
+            this.rabbitmqProducerService.SetExchange(GlobalDictionary.DataSyncDirectExchange,RabbitmqExchangeType.Direct);
 
             var updateFileSettingCommand = new UpdateFileSettingCommand()
             {
-                IsHomeOwnerModalOn = true
+                IsStartupModalOn = true
             };
 
-            this.rabbitmqExchangeMessageService.BasicPublish(GlobalDictionary.DataSyncDirectExchange,
+            this.rabbitmqProducerService.BasicPublish(GlobalDictionary.DataSyncDirectExchange,
                 updateFileSettingCommand,
                 GlobalDictionary.RoutingKeyDataSyncFileSetting);
         }

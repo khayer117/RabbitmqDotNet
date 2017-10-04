@@ -15,15 +15,15 @@ namespace MessengerWizardConsumer
         {
             var container = CreateContainer();
 
-            //var testSync = container.Resolve<TestMWDataSync>();
-            //testSync.TestCommand().Wait();
             Console.WriteLine("Messenger App Consumer started.");
             var rabbitmqConsumerService = container.Resolve<IRabbitmqConsumerService>();
 
+            //Queued has been preconfired in producer end.
             Task.Run(() => rabbitmqConsumerService.ReceiveMessages(GlobalDictionary.QueueDataSyncExchangeMessengerWizard));
 
-            //Post config method
+            //Configure queued
             rabbitmqConsumerService.SetQueue(GlobalDictionary.DataSyncDirectExchange,
+                RabbitmqExchangeType.Direct,
                 GlobalDictionary.QueueSyncFileSettingExchange,
                 GlobalDictionary.RoutingKeyDataSyncFileSetting);
 

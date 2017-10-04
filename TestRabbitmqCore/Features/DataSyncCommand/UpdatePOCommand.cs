@@ -2,7 +2,7 @@
 
 namespace RabbitmqDotNetCore.Features
 {
-    public class UpdatePublicationOwnerCommand:IQueueCommand
+    public class UpdatePoCommand:IQueueCommand
     {
         public string ObjectId;
         public string Name;

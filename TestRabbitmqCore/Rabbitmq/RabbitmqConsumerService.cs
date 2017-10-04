@@ -26,13 +26,10 @@ namespace RabbitmqDotNetCore.Rabbitmq
             this.actionCommandDispacher = actionCommandDispacher;
             this.logger = logger;
         }
-        public void SetQueue(string exchangeName, string queueName, string routingKey)
+        public void SetQueue(string exchangeName, string exchangeType, string queueName, string routingKey)
         {
-            var connection = this.rabbitmqConnect.CreateConnection();
-            var channel = connection.CreateModel();
-
-            channel.QueueDeclare(queueName, true, false, false, null);
-            channel.QueueBind(queueName, exchangeName, routingKey);
+            this.rabbitmqConnect.SetExchange(exchangeName, exchangeType);
+            this.rabbitmqConnect.SetQueue(exchangeName, queueName, routingKey);
         }
         public void ReceiveMessages(string quaueName)
         {

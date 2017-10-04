@@ -4,6 +4,6 @@ namespace RabbitmqDotNetCore.Features
 {
     public class UpdateFileSettingCommand:IQueueCommand
     {
-        public bool IsHomeOwnerModalOn;
+        public bool IsStartupModalOn;
     }
 }
