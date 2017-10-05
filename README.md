@@ -9,6 +9,13 @@ Need basic idea on [Rabbitmq](https://www.rabbitmq.com/tutorials/tutorial-one-do
 * Install RabbitMQ.Client using Nuget
 
 ## How to Start
+* Create a command in RabbitmqDotNetCore\Features\DataSyncCommand
+```csharp
+public class UpdateFileSettingCommand:IQueueCommand
+{
+	public bool IsStartupModalOn;
+}
+```
 * Producer: Simple publish to exchange
 ```csharp
 this.rabbitmqProducerService.SetExchange(GlobalDictionary.DataSyncDirectExchange,RabbitmqExchangeType.Direct);
@@ -20,7 +27,7 @@ this.rabbitmqProducerService.BasicPublish(GlobalDictionary.DataSyncDirectExchang
                 updateFileSettingCommand,
                 GlobalDictionary.RoutingKeyDataSyncFileSetting);
 ```
-* Consumer: Reciever from Queue
+* Consumer: Create reciever from Queue
 ```csharp
 rabbitmqConsumerService.SetQueue(GlobalDictionary.DataSyncDirectExchange,
 	RabbitmqExchangeType.Direct,
@@ -28,7 +35,7 @@ rabbitmqConsumerService.SetQueue(GlobalDictionary.DataSyncDirectExchange,
 	GlobalDictionary.RoutingKeyDataSyncFileSetting);
 Task.Run(() => rabbitmqConsumerService.ReceiveMessages(GlobalDictionary.QueueSyncFileSettingExchange));
 ```
-* Consumer Command Handler
+* Create a consumer Command Handler
 ```csharp
 public class UpdateFileSettingHandler:IActionCommandHandler<UpdateFileSettingCommand>
 {

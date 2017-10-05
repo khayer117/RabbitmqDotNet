@@ -68,7 +68,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestRabbitmqCore\RabbitmqDotNetCore.csproj">
+    <ProjectReference Include="..\RabbitmqDotNetCore\RabbitmqDotNetCore.csproj">
       <Project>{a144e67f-2bf9-475a-8038-07ee1d119f37}</Project>
       <Name>RabbitmqDotNetCore</Name>
     </ProjectReference>
