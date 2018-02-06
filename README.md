@@ -50,5 +50,3 @@ public class UpdateFileSettingHandler:IActionCommandHandler<UpdateFileSettingCom
     }
 }
 ```
-### Special Note
-If Rabbitmq client get timeout exception to connect to queue, restart the rabbitmq service from Task Manager > Rabbitmq. This can be happen first time after window start.
